@@ -2,7 +2,15 @@ language: generic
 sudo: required
 services:
   - docker
-before_install:
-  - docker build -t pramindanata/docker-react -f Dockerfile.dev .
-script:
-  - docker run -e CI=true pramindanata/docker-react npm run test -- --coverage
+jobs:
+  include:
+    - stage: test
+      before_install:
+        - docker build -t pramindanata/docker-react -f Dockerfile.dev .
+      script:
+        - docker run -e CI=true pramindanata/docker-react npm run test -- --coverage
+    - stage: deploy
+      if: branch = master
+      script:
+        - echo "Hi there, just testing how jobs work"
+

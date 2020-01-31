@@ -1,0 +1,13 @@
+FROM node:alpine AS build
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+RUN npm run build
+# Hasil dari fase "build" setelah "docker build" dijalankan
+# tidak akan dipakai. Sehingga ukuran image nantinya
+# bakal lebih kecil. 
+
+FROM nginx:alpine AS serve
+# Cek doc Nginx Docker terkait /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html

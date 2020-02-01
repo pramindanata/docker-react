@@ -12,6 +12,7 @@ jobs:
       if: branch = master
       language: generic
       script:
+        - eval "$(ssh-agent -s)"
         - mkdir -p ~/.ssh
         - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
         - chmod 600 ~/.ssh/id_dsa

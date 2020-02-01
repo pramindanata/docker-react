@@ -1,6 +1,5 @@
 language: node_js
-node_js:
- - "stable"
+node_js: "stable"
 jobs:
   include:
     # - stage: test
@@ -11,11 +10,11 @@ jobs:
     - stage: deploy
       if: branch = master
       language: generic
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_2a4be346db14_key -iv $encrypted_2a4be346db14_iv -in deploy_key.enc -out ./deploy_key -d
       script:
         - eval "$(ssh-agent -s)"
-        - mkdir -p ~/.ssh
-        - echo $SSH_PRIVATE_KEY >> ~/.ssh/id_dsa
-        - chmod 600 ~/.ssh/id_dsa
-        - ssh-add ~/.ssh/id_dsa
-        - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-        - rsync -rav --delete ./ travis@$SERVER_IP:$APP_PATH
+        - chmod 600 ./deploy_key
+        - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - ssh-add ./deploy_key
+        - ssh -i ./deploy_key travis@$SERVER_IP pwd

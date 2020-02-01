@@ -21,3 +21,4 @@ jobs:
         - ssh-add ./deploy_key
         - ssh -i ./deploy_key travis@$SERVER_IP pwd
         - rsync -rav  --exclude-from='rsync-exclude.txt' --delete ./ travis@$SERVER_IP:$APP_PATH
+        - ssh -i ./deploy_key travis@$SERVER_IP "cd $APP_PATH && deploy.sh"

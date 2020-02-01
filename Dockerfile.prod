@@ -1,7 +1,7 @@
 FROM node:alpine AS build
 WORKDIR /app
 COPY package.json .
-RUN npm install
+RUN npm install --progress false
 COPY . .
 RUN npm run build
 # Hasil dari fase "build" setelah "docker build" dijalankan

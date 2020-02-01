@@ -3,11 +3,11 @@ node_js:
  - "stable"
 jobs:
   include:
-    - stage: test
-      before_install:
-        - npm install --progress=false
-      script:
-        - npm run test -- --coverage
+    # - stage: test
+    #   before_install:
+    #     - npm install --progress=false
+    #   script:
+    #     - npm run test -- --coverage
     - stage: deploy
       if: branch = master
       language: generic
@@ -16,6 +16,5 @@ jobs:
         - mkdir -p ~/.ssh
         - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
         - chmod 600 ~/.ssh/id_dsa
-        - ssh-add ~/.ssh/id_dsa
         - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-        - rsync -rav --delete ssh ./ travis@$SERVER_IP:$APP_PATH
+        - rsync -rav --delete ./ travis@$SERVER_IP:$APP_PATH

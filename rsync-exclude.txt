@@ -1,0 +1,4 @@
+.git
+.travis.yml
+deploy_key.enc
+deploy.sh

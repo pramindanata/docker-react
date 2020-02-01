@@ -20,4 +20,4 @@ jobs:
         - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./deploy_key
         - ssh -i ./deploy_key travis@$SERVER_IP pwd
-        # - rsync -rav --delete ./ travis@$SERVER_IP:$APP_PATH
+        - rsync -rav --delete ./ travis@$SERVER_IP:$APP_PATH

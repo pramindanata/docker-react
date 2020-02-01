@@ -12,7 +12,7 @@ const Hi = () => {
 
   return (
     <div>
-      <h1>Hi there, here is a timer {value}</h1>
+      <h1>Hi there, here is a 2x timer {value}</h1>
     </div>
   )
 }

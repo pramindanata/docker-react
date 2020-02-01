@@ -3,11 +3,11 @@ node_js:
   - stable
 jobs:
   include:
-    # - stage: test
-    #   before_install:
-    #     - npm install --progress=false
-    #   script:
-    #     - npm run test -- --coverage
+    - stage: test
+      before_install:
+        - npm install --progress false
+      script:
+        - npm run test -- --coverage
     - stage: deploy
       if: branch = master
       language: generic
@@ -20,5 +20,8 @@ jobs:
         - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./deploy_key
         - ssh -i ./deploy_key travis@$SERVER_IP pwd
-        - rsync -rav  --exclude-from='rsync-exclude.txt' --delete ./ travis@$SERVER_IP:$APP_PATH
+      deploy:
+        provider: script
+        script: rsync -rav  --exclude-from='rsync-exclude.txt' --delete ./ travis@$SERVER_IP:$APP_PATH
+      after_deploy:
         - ssh -i ./deploy_key travis@$SERVER_IP "cd $APP_PATH && bash deploy.sh"

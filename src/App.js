@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './image/dogo.png';
 import './App.css';
 import Hi from './Hi'
 
@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Learn React right now bruh
         </a>
       </header>
     </div>

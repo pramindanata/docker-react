@@ -3,7 +3,7 @@ jobs:
   include:
     - stage: test
       before_install:
-        - npm install
+        - npm install --progress=false
       script:
         - npm run test -- --coverage
     - stage: deploy

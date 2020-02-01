@@ -19,7 +19,6 @@ jobs:
         - chmod 600 ./deploy_key
         - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - ssh-add ./deploy_key
-        - ssh -i ./deploy_key travis@$SERVER_IP pwd
       deploy:
         provider: script
         script: rsync -rav  --exclude-from='rsync-exclude.txt' --delete ./ travis@$SERVER_IP:$APP_PATH

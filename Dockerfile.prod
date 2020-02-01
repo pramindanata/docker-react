@@ -9,5 +9,6 @@ RUN npm run build
 # bakal lebih kecil. 
 
 FROM nginx:alpine AS serve
+EXPOSE 80
 # Cek doc Nginx Docker terkait /usr/share/nginx/html
 COPY --from=build /app/build /usr/share/nginx/html

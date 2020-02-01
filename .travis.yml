@@ -1,16 +1,19 @@
-language: generic
-sudo: required
-services:
-  - docker
+language: node_js
 jobs:
   include:
     - stage: test
       before_install:
-        - docker build -t pramindanata/docker-react -f Dockerfile.dev .
+        - npm install
       script:
-        - docker run -e CI=true pramindanata/docker-react npm run test -- --coverage
+        - npm run test -- --coverage
     - stage: deploy
       if: branch = master
-      script:
-        - echo "Hi there, just testing how jobs work"
-
+      language: generic
+      before_deploy:
+        - mkdir -p ~/.ssh
+        - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+        - chmod 600 ~/.ssh/id_dsa
+        - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      deploy:
+        provider: script
+        script: rsync -rav --delete ./ travis@$SERVER_IP:$APP_PATH

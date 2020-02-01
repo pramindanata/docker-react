@@ -11,8 +11,10 @@ jobs:
     - stage: deploy
       if: branch = master
       language: generic
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_2a4be346db14_key -iv $encrypted_2a4be346db14_iv 
+          -in deploy_key.enc -out ./deploy_key -d
       script:
-        - openssl aes-256-cbc -K $encrypted_2a4be346db14_key -iv $encrypted_2a4be346db14_iv -in deploy_key.enc -out ./deploy_key -d
         - eval "$(ssh-agent -s)"
         - chmod 600 ./deploy_key
         - echo -e "Host $SERVER_IP\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
